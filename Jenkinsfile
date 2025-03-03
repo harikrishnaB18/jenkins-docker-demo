@@ -4,9 +4,13 @@ pipeline {
         DOCKER_IMAGE = "haribhk/myapp"
     }
     stages {
-        stage("Clone Repository") {
+        stage("Checkout Code") {  // Replaced "Clone Repository" with "Checkout Code"
             steps {
-                git "https://github.com/harikrishnaB18/jenkins-docker-demo.git"
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: '*/main']], // Replace 'main' with your branch if different
+                    userRemoteConfigs: [[url: 'https://github.com/harikrishnaB18/jenkins-docker-demo.git']]
+                ])
             }
         }
         stage("Build Docker Image") {
@@ -28,4 +32,3 @@ pipeline {
         }
     }
 }
-
